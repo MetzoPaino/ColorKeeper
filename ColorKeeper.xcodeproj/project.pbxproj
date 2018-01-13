@@ -18,7 +18,7 @@
 		0A59133B20090FD000335DA4 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A59133A20090FD000335DA4 /* CoreDataStack.swift */; };
 		0A59133D200947FD00335DA4 /* HEX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A59133C200947FD00335DA4 /* HEX.swift */; };
 		0A59133F2009489F00335DA4 /* ColorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A59133E2009489F00335DA4 /* ColorTableViewCell.swift */; };
-		0A591341200A4B4000335DA4 /* FilterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A591340200A4B4000335DA4 /* FilterTableViewController.swift */; };
+		0A591341200A4B4000335DA4 /* SortTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A591340200A4B4000335DA4 /* SortTableViewController.swift */; };
 		0A591343200A4C8100335DA4 /* FilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A591342200A4C8100335DA4 /* FilterTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -36,7 +36,7 @@
 		0A59133A20090FD000335DA4 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		0A59133C200947FD00335DA4 /* HEX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HEX.swift; sourceTree = "<group>"; };
 		0A59133E2009489F00335DA4 /* ColorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTableViewCell.swift; sourceTree = "<group>"; };
-		0A591340200A4B4000335DA4 /* FilterTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewController.swift; sourceTree = "<group>"; };
+		0A591340200A4B4000335DA4 /* SortTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTableViewController.swift; sourceTree = "<group>"; };
 		0A591342200A4C8100335DA4 /* FilterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,7 +75,7 @@
 				0A59133520090E5500335DA4 /* Color.swift */,
 				0A59133A20090FD000335DA4 /* CoreDataStack.swift */,
 				0A59132320090C5100335DA4 /* ViewController.swift */,
-				0A591340200A4B4000335DA4 /* FilterTableViewController.swift */,
+				0A591340200A4B4000335DA4 /* SortTableViewController.swift */,
 				0A591342200A4C8100335DA4 /* FilterTableViewCell.swift */,
 				0A59133E2009489F00335DA4 /* ColorTableViewCell.swift */,
 				0A59133C200947FD00335DA4 /* HEX.swift */,
@@ -169,7 +169,7 @@
 				0A59132420090C5100335DA4 /* ViewController.swift in Sources */,
 				0A59132220090C5100335DA4 /* AppDelegate.swift in Sources */,
 				0A59133620090E5500335DA4 /* Color.swift in Sources */,
-				0A591341200A4B4000335DA4 /* FilterTableViewController.swift in Sources */,
+				0A591341200A4B4000335DA4 /* SortTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

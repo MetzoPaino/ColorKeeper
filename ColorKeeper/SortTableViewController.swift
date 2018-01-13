@@ -12,19 +12,27 @@ protocol SortTableViewControllerDelegate: class {
     func sortSelected(sort: Sort)
 }
 
-class FilterTableViewController: UITableViewController {
+class SortTableViewController: UITableViewController {
 
     weak var delegate: SortTableViewControllerDelegate?
 
     let sortArray = [Sort.alphabetical, .category, .favorite]
-    lazy var selectedFilter = sortArray.first
+    var selectedSortCriteria = Sort.alphabetical
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         clearsSelectionOnViewWillAppear = false;
         tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
-        selectCell(indexPath: IndexPath(item: 0, section: 0))
+
+        for (index, sortCriteria) in sortArray.enumerated() {
+
+            if selectedSortCriteria == sortCriteria {
+                selectCell(indexPath: IndexPath(item: index, section: 0))
+            }
+        }
+
     }
 
     func selectCell(indexPath:IndexPath) {
@@ -48,13 +56,14 @@ class FilterTableViewController: UITableViewController {
 
         let sortCriterea = sortArray[indexPath.row]
         cell.configure(string: sortArray[indexPath.row].stringValue)
-        cell.isSelected = sortCriterea == selectedFilter
+        cell.isSelected = sortCriterea == selectedSortCriteria
 
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.delegate?.sortSelected(sort: sortArray[indexPath.row])
+        dismiss(animated: true, completion: nil)
     }
 
     /*

@@ -107,11 +107,11 @@ class ViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "FilterSegue" {
-            let popoverViewController = segue.destination as! FilterTableViewController
+            let popoverViewController = segue.destination as! SortTableViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
             popoverViewController.popoverPresentationController!.delegate = self
             popoverViewController.delegate = self
-            popoverViewController.selectedFilter = sort
+            popoverViewController.selectedSortCriteria = sort
         }
     }
 }
