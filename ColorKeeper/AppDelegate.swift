@@ -7,15 +7,25 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    lazy var  coreDataStack = CoreDataStack(modelName: "ColorLibrary")
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        importJSONDataIfNeeded()
+
+        guard let navController = window?.rootViewController as? UINavigationController,
+            let viewController = navController.topViewController as? ViewController else {
+                return true
+        }
+
+        viewController.coreDataStack = coreDataStack
+        
         return true
     }
 
@@ -38,9 +48,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        coreDataStack.saveContext()
+    }
+}
+
+extension AppDelegate {
+
+    func importJSONDataIfNeeded() {
+
+        let fetchRequest: NSFetchRequest<Color> = Color.fetchRequest()
+        let count = try? coreDataStack.managedContext.count(for: fetchRequest)
+
+        guard let colorCount = count,
+            colorCount == 0 else {
+                return
+        }
+       
+        importJSONSeedData()
     }
 
+    func importJSONSeedData() {
 
+        let jsonURL = Bundle.main.url(forResource: "colors", withExtension: "json")!
+        let jsonData = try! Data(contentsOf: jsonURL)
+
+        do {
+            let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options: [.allowFragments]) as! [[String: Any]]
+
+            for jsonDictionary in jsonArray {
+                let name = jsonDictionary["name"] as! String
+                let category = jsonDictionary["category"] as! String
+                let hex = jsonDictionary["hex"] as! String
+                let favorite = jsonDictionary["favorite"] as! Bool
+
+                let color = Color(context: coreDataStack.managedContext)
+                color.name = name
+                color.hex = hex
+                color.category = category
+                color.favorite = favorite
+            }
+
+            coreDataStack.saveContext()
+
+        } catch let error as NSError {
+            print("Error importing colors: \(error)")
+        }
+    }
 }
 
