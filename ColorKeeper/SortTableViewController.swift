@@ -19,7 +19,6 @@ class SortTableViewController: UITableViewController {
     let sortArray = [Sort.alphabetical, .category, .favorite]
     var selectedSortCriteria = Sort.alphabetical
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         clearsSelectionOnViewWillAppear = false;
@@ -50,7 +49,7 @@ class SortTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? FilterTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? SortTableViewCell else {
             return UITableViewCell()
         }
 

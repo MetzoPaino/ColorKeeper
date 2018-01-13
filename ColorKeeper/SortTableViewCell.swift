@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FilterTableViewCell: UITableViewCell {
+class SortTableViewCell: UITableViewCell {
 
     // MARK: - IBOutlets
     @IBOutlet weak var label: UILabel!
