@@ -150,7 +150,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="xqm-RK-wFz">
-                        <barButtonItem key="rightBarButtonItem" title="Filter" id="DLx-ZP-yJ4">
+                        <barButtonItem key="rightBarButtonItem" title="Sort" id="DLx-ZP-yJ4">
                             <connections>
                                 <segue destination="gtm-nj-Sja" kind="popoverPresentation" identifier="FilterSegue" popoverAnchorBarButtonItem="DLx-ZP-yJ4" id="Q0L-85-rPJ">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>

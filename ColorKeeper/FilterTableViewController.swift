@@ -8,29 +8,36 @@
 
 import UIKit
 
-protocol FilterTableViewControllerDelegate: class {
-    func filterSelected(filter: Filter)
+protocol SortTableViewControllerDelegate: class {
+    func sortSelected(sort: Sort)
 }
 
 class FilterTableViewController: UITableViewController {
 
-    weak var delegate: FilterTableViewControllerDelegate?
+    weak var delegate: SortTableViewControllerDelegate?
 
-    let filterArray = [Filter.alphabetical, .category, .favorite]
-    lazy var selectedFilter = filterArray.first
+    let sortArray = [Sort.alphabetical, .category, .favorite]
+    lazy var selectedFilter = sortArray.first
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        clearsSelectionOnViewWillAppear = false;
+        tableView.isScrollEnabled = false
+        tableView.tableFooterView = UIView()
+        selectCell(indexPath: IndexPath(item: 0, section: 0))
+    }
+
+    func selectCell(indexPath:IndexPath) {
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filterArray.count
+        return sortArray.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -39,12 +46,15 @@ class FilterTableViewController: UITableViewController {
             return UITableViewCell()
         }
 
-        cell.configure(string: filterArray[indexPath.row].stringValue)
+        let sortCriterea = sortArray[indexPath.row]
+        cell.configure(string: sortArray[indexPath.row].stringValue)
+        cell.isSelected = sortCriterea == selectedFilter
+
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.delegate?.filterSelected(filter: filterArray[indexPath.row])
+        self.delegate?.sortSelected(sort: sortArray[indexPath.row])
     }
 
     /*

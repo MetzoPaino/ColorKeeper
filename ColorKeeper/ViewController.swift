@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-enum Filter {
+enum Sort {
     case alphabetical
     case category
     case favorite
@@ -31,37 +31,74 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var tableView: UITableView!
 
     var coreDataStack: CoreDataStack!
-    var filter = Filter.alphabetical
+    var sort = Sort.alphabetical
+    var sectionKeyPath: String = #keyPath(Color.category)
+    var sortDescriptors: [NSSortDescriptor] = [NSSortDescriptor(key: #keyPath(Color.category), ascending: true)]
 
-    lazy var fetchedResultsController: NSFetchedResultsController<Color> = {
+    //private var fetchedResultsController: NSFetchedResultsController<Color>?
+    private var fetchedResultsController = NSFetchedResultsController<Color>()
+
+
+//    lazy var fetchedResultsController: NSFetchedResultsController<Color> = {
+//        let fetchRequest: NSFetchRequest<Color> = Color.fetchRequest()
+//        let zoneSort = NSSortDescriptor(key: #keyPath(Color.category), ascending: true)
+//        let scoreSort = NSSortDescriptor(key: #keyPath(Color.favorite), ascending: false)
+//        let nameSort = NSSortDescriptor(key: #keyPath(Color.name), ascending: true)
+//
+//        switch sort {
+//            case .alphabetical:
+//                fetchRequest.sortDescriptors = [nameSort]
+//            default:
+//                fetchRequest.sortDescriptors = [zoneSort, nameSort]
+//        }
+//
+//
+//        let fetchedResultsController = NSFetchedResultsController(
+//            fetchRequest: fetchRequest,
+//            managedObjectContext: coreDataStack.managedContext,
+//           // sectionNameKeyPath: #keyPath(Color.category),
+//            sectionNameKeyPath: sectionKeyPath,
+//
+//            cacheName: "colorLibrary")
+//
+//        fetchedResultsController.delegate = self
+//
+//        return fetchedResultsController
+//    }()
+
+    func createFetchedResultsController() -> NSFetchedResultsController<Color> {
+
         let fetchRequest: NSFetchRequest<Color> = Color.fetchRequest()
-        let zoneSort = NSSortDescriptor(key: #keyPath(Color.category), ascending: true)
-        let scoreSort = NSSortDescriptor(key: #keyPath(Color.favorite), ascending: false)
-        let nameSort = NSSortDescriptor(key: #keyPath(Color.name), ascending: true)
+        //let zoneSort = NSSortDescriptor(key: #keyPath(Color.category), ascending: true)
+      //  let scoreSort = NSSortDescriptor(key: #keyPath(Color.favorite), ascending: false)
+       // let nameSort = NSSortDescriptor(key: #keyPath(Color.name), ascending: true)
 
-        switch filter {
-            case .alphabetical:
-                fetchRequest.sortDescriptors = [nameSort]
-            default:
-                fetchRequest.sortDescriptors = [zoneSort, nameSort]
-        }
+//        switch sort {
+//        case .alphabetical:
+//            fetchRequest.sortDescriptors = [nameSort]
+//        default:
+//            fetchRequest.sortDescriptors = [zoneSort, nameSort]
+//        }
 
+        fetchRequest.sortDescriptors = sortDescriptors
 
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
             managedObjectContext: coreDataStack.managedContext,
-            sectionNameKeyPath: #keyPath(Color.category),
+            sectionNameKeyPath: sectionKeyPath,
+
             cacheName: "colorLibrary")
 
         fetchedResultsController.delegate = self
 
         return fetchedResultsController
-    }()
+    }
 
 
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchedResultsController = createFetchedResultsController()
 
         do {
             try fetchedResultsController.performFetch()
@@ -70,24 +107,54 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         }
     }
 
-    func sortResultsController(criteria: Filter) {
+    func sortResultsController(criteria: Sort) {
 
         let zoneSort = NSSortDescriptor(key: #keyPath(Color.category), ascending: true)
-        //let scoreSort = NSSortDescriptor(key: #keyPath(Color.favorite), ascending: false)
+        let favoriteSort = NSSortDescriptor(key: #keyPath(Color.favorite), ascending: false)
         let nameSort = NSSortDescriptor(key: #keyPath(Color.name), ascending: true)
 
         switch criteria {
         case .alphabetical:
-            fetchedResultsController.fetchRequest.sortDescriptors = [nameSort]
-        default:
-            fetchedResultsController.fetchRequest.sortDescriptors = [zoneSort, nameSort]
+            sectionKeyPath = #keyPath(Color.name)
+            sortDescriptors = [nameSort]
+        case .category:
+            sectionKeyPath = #keyPath(Color.category)
+            sortDescriptors = [zoneSort, nameSort]
+        case .favorite:
+            sectionKeyPath = #keyPath(Color.favorite)
+            sortDescriptors = [favoriteSort]
         }
+        fetchedResultsController = createFetchedResultsController()
 
         do {
             try fetchedResultsController.performFetch()
         } catch let error as NSError {
             print("Fetching error: \(error), \(error.userInfo)")
         }
+    }
+
+    func setFetchResultsControllerSections(sort: Sort) {
+        switch sort {
+        case .alphabetical:
+            sectionKeyPath = #keyPath(Color.name)
+        case .category:
+            sectionKeyPath = #keyPath(Color.category)
+        case .favorite:
+            sectionKeyPath = #keyPath(Color.favorite)
+        }
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "FilterSegue" {
+            let popoverViewController = segue.destination as! FilterTableViewController
+            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
+            popoverViewController.popoverPresentationController!.delegate = self
+            popoverViewController.delegate = self
+        }
+    }
+
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
 }
 
@@ -99,7 +166,6 @@ extension ViewController: UITableViewDataSource {
             return 0
         }
         return sections.count
-
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -121,15 +187,17 @@ extension ViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 
-        switch filter {
+        switch sort {
         case .alphabetical:
             return nil
-        default:
+        case .category, .favorite:
             let sectionInfo = fetchedResultsController.sections?[section]
             return sectionInfo?.name
         }
     }
 }
+
+
 
 // MARK: - UITableViewDelegate
 extension ViewController: UITableViewDelegate {
@@ -141,6 +209,7 @@ extension ViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - NSFetchedResultsControllerDelegate
 extension ViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -164,27 +233,15 @@ extension ViewController: NSFetchedResultsControllerDelegate {
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
     }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "FilterSegue" {
-            let popoverViewController = segue.destination as! FilterTableViewController
-            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
-            popoverViewController.popoverPresentationController!.delegate = self
-            popoverViewController.delegate = self
-        }
-    }
-
-    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.none
-    }
 }
 
-extension ViewController: FilterTableViewControllerDelegate {
+// MARK: - NSFetchedResultsControllerDelegate
+extension ViewController: SortTableViewControllerDelegate {
 
-    func filterSelected(filter: Filter) {
+    func sortSelected(sort: Sort) {
 
-        sortResultsController(criteria: filter)
-        self.filter = filter
+        self.sort = sort
+        sortResultsController(criteria: sort)
         tableView.reloadData()
     }
 }
