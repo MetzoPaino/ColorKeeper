@@ -26,6 +26,21 @@ enum Sort {
     }
 }
 
+enum Filter {
+    case favorite
+
+//    var stringValue: String {
+//        switch self {
+//        case .none:
+//            return "A - Z"
+//        case .category:
+//            return "Group"
+//        case .favorite:
+//            return "Fav"
+//        }
+//    }
+}
+
 class ColorListViewController: UIViewController {
 
     //MARK: - Outlets
@@ -42,6 +57,8 @@ class ColorListViewController: UIViewController {
     var coreDataStack: CoreDataStack!
     var fetchedResultsController = NSFetchedResultsController<Color>()
     var sort = Sort.alphabetical
+
+
     var filterPredicate: NSPredicate? = nil
 
     lazy var sectionKeyPath: String = {
@@ -50,6 +67,10 @@ class ColorListViewController: UIViewController {
     lazy var sortDescriptors: [NSSortDescriptor] = {
         [nameSort]
     }()
+    lazy var filterArray: [Filter] = {
+        []
+    }()
+
 
     //MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -131,12 +152,30 @@ class ColorListViewController: UIViewController {
     //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "FilterSegue" {
+        if segue.identifier == "SortSegue" {
             let popoverViewController = segue.destination as! SortTableViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
             popoverViewController.popoverPresentationController!.delegate = self
             popoverViewController.delegate = self
             popoverViewController.selectedSortCriteria = sort
+            popoverViewController.organiseType = OrganiseType.sort
+
+        } else if segue.identifier == "FilterSegue" {
+
+            let popoverViewController = segue.destination as! SortTableViewController
+            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
+            popoverViewController.popoverPresentationController!.delegate = self
+            popoverViewController.delegate = self
+            //popoverViewController.selectedFilterCriteria
+            popoverViewController.organiseType = OrganiseType.filter
+
+            guard let sections = fetchedResultsController.sections else { return }
+            var sectionNameArray = [String]()
+            for sectionInfo in sections {
+                sectionNameArray.append(sectionInfo.name)
+            }
+
+            popoverViewController.filterCriteria = sectionNameArray
         }
     }
 }

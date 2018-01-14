@@ -154,12 +154,18 @@
                         <rightBarButtonItems>
                             <barButtonItem title="Sort" id="DLx-ZP-yJ4">
                                 <connections>
-                                    <segue destination="gtm-nj-Sja" kind="popoverPresentation" identifier="FilterSegue" popoverAnchorBarButtonItem="DLx-ZP-yJ4" id="Q0L-85-rPJ">
+                                    <segue destination="gtm-nj-Sja" kind="popoverPresentation" identifier="SortSegue" popoverAnchorBarButtonItem="DLx-ZP-yJ4" id="Q0L-85-rPJ">
                                         <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                     </segue>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Filter" id="wo8-d3-pdk"/>
+                            <barButtonItem enabled="NO" title="Filter" id="wo8-d3-pdk">
+                                <connections>
+                                    <segue destination="gtm-nj-Sja" kind="popoverPresentation" identifier="FilterSegue" popoverAnchorBarButtonItem="wo8-d3-pdk" id="Ybp-WF-4Sa">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
@@ -192,4 +198,7 @@
     <resources>
         <image name="StarDefault" width="44" height="44"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Q0L-85-rPJ"/>
+    </inferredMetricsTieBreakers>
 </document>
