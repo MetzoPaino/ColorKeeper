@@ -26,6 +26,21 @@ enum Sort {
     }
 }
 
+enum Filter {
+    case favorite
+
+//    var stringValue: String {
+//        switch self {
+//        case .none:
+//            return "A - Z"
+//        case .category:
+//            return "Group"
+//        case .favorite:
+//            return "Fav"
+//        }
+//    }
+}
+
 class ColorListViewController: UIViewController {
 
     //MARK: - Outlets
@@ -37,9 +52,13 @@ class ColorListViewController: UIViewController {
     let nameSort = NSSortDescriptor(key: #keyPath(Color.name), ascending: true)
     let cacheName = "colorLibrary"
 
+    let searchController = UISearchController(searchResultsController: nil)
+
     var coreDataStack: CoreDataStack!
     var fetchedResultsController = NSFetchedResultsController<Color>()
     var sort = Sort.alphabetical
+
+    var filterPredicate: NSPredicate? = nil
 
     lazy var sectionKeyPath: String = {
         #keyPath(Color.name)
@@ -47,27 +66,36 @@ class ColorListViewController: UIViewController {
     lazy var sortDescriptors: [NSSortDescriptor] = {
         [nameSort]
     }()
+    lazy var filterArray: [Filter] = {
+        []
+    }()
+
 
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fetchedResultsController = createFetchedResultsController()
-
-        do {
-            try fetchedResultsController.performFetch()
-        } catch let error as NSError {
-            print("Fetching error: \(error), \(error.userInfo)")
-        }
+        setupSearchController()
+        fetchedResultsController = setupFetchedResultsController()
+        refreshData()
     }
 
-    //MARK: - Internal
-    func createFetchedResultsController() -> NSFetchedResultsController<Color> {
+    //MARK: - Setup
+    func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+
+    func setupFetchedResultsController() -> NSFetchedResultsController<Color> {
 
         NSFetchedResultsController<NSFetchRequestResult>.deleteCache(withName: cacheName)
 
         let fetchRequest: NSFetchRequest<Color> = Color.fetchRequest()
         fetchRequest.sortDescriptors = sortDescriptors
+        fetchRequest.predicate = filterPredicate
 
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -78,6 +106,28 @@ class ColorListViewController: UIViewController {
         fetchedResultsController.delegate = self
 
         return fetchedResultsController
+    }
+
+    //MARK: - Internal
+    func refreshData() {
+        do {
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            print("Fetching error: \(error), \(error.userInfo)")
+        }
+    }
+
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+
+        if searchText.count < 1 {
+            filterPredicate = nil
+        } else {
+            filterPredicate = NSPredicate(format:"name CONTAINS[cd] '\(searchText)' || category CONTAINS[cd] '\(searchText)' || hex CONTAINS[cd] '\(searchText)'")
+        }
+
+        fetchedResultsController = setupFetchedResultsController()
+        refreshData()
+        tableView.reloadData()
     }
 
     func sortResultsController(criteria: Sort) {
@@ -94,24 +144,37 @@ class ColorListViewController: UIViewController {
             sortDescriptors = [favoriteSort]
         }
 
-        fetchedResultsController = createFetchedResultsController()
-
-        do {
-            try fetchedResultsController.performFetch()
-        } catch let error as NSError {
-            print("Fetching error: \(error), \(error.userInfo)")
-        }
+        fetchedResultsController = setupFetchedResultsController()
+        refreshData()
     }
 
     //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "FilterSegue" {
+        if segue.identifier == "SortSegue" {
             let popoverViewController = segue.destination as! SortTableViewController
             popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
             popoverViewController.popoverPresentationController!.delegate = self
             popoverViewController.delegate = self
             popoverViewController.selectedSortCriteria = sort
+            popoverViewController.organiseType = OrganiseType.sort
+
+        } else if segue.identifier == "FilterSegue" {
+
+            let popoverViewController = segue.destination as! SortTableViewController
+            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
+            popoverViewController.popoverPresentationController!.delegate = self
+            popoverViewController.delegate = self
+            //popoverViewController.selectedFilterCriteria
+            popoverViewController.organiseType = OrganiseType.filter
+
+            guard let sections = fetchedResultsController.sections else { return }
+            var sectionNameArray = [String]()
+            for sectionInfo in sections {
+                sectionNameArray.append(sectionInfo.name)
+            }
+
+            popoverViewController.filterCriteria = sectionNameArray
         }
     }
 }
@@ -156,14 +219,24 @@ extension ColorListViewController: UITableViewDataSource {
         switch sort {
         case .alphabetical:
             return nil
-        case .category, .favorite:
+        case .category:
             let sectionInfo = fetchedResultsController.sections?[section]
             return sectionInfo?.name
+        case .favorite:
+
+            guard let sectionInfo = fetchedResultsController.sections?[section] else {
+                return nil
+            }
+
+            if sectionInfo.name == "1" {
+                return "Favorites"
+            } else {
+                return "Colors"
+            }
         }
+
     }
 }
-
-
 
 // MARK: - UITableViewDelegate
 extension ColorListViewController: UITableViewDelegate {
@@ -178,6 +251,7 @@ extension ColorListViewController: UITableViewDelegate {
 
 // MARK: - NSFetchedResultsControllerDelegate
 extension ColorListViewController: NSFetchedResultsControllerDelegate {
+
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -205,11 +279,20 @@ extension ColorListViewController: NSFetchedResultsControllerDelegate {
 // MARK: - NSFetchedResultsControllerDelegate
 extension ColorListViewController: SortTableViewControllerDelegate {
 
-    func sortSelected(sort: Sort) {
+    func filterSelected(sort: Sort) {
+    }
 
+    func sortSelected(sort: Sort) {
         self.sort = sort
         sortResultsController(criteria: sort)
         tableView.reloadData()
     }
 }
 
+// MARK: - UISearchResultsUpdatingDelegate
+extension ColorListViewController: UISearchResultsUpdating {
+
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+}

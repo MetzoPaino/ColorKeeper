@@ -152,7 +152,7 @@
                     <navigationItem key="navigationItem" title="ColorList" id="xqm-RK-wFz">
                         <barButtonItem key="rightBarButtonItem" title="Sort" id="DLx-ZP-yJ4">
                             <connections>
-                                <segue destination="gtm-nj-Sja" kind="popoverPresentation" identifier="FilterSegue" popoverAnchorBarButtonItem="DLx-ZP-yJ4" id="Q0L-85-rPJ">
+                                <segue destination="gtm-nj-Sja" kind="popoverPresentation" identifier="SortSegue" popoverAnchorBarButtonItem="DLx-ZP-yJ4" id="Q0L-85-rPJ">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
