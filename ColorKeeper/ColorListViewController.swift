@@ -268,6 +268,9 @@ extension ColorListViewController: NSFetchedResultsControllerDelegate {
 // MARK: - NSFetchedResultsControllerDelegate
 extension ColorListViewController: SortTableViewControllerDelegate {
 
+    func filterSelected(sort: Sort) {
+    }
+
     func sortSelected(sort: Sort) {
         self.sort = sort
         sortResultsController(criteria: sort)
