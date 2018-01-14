@@ -37,9 +37,12 @@ class ColorListViewController: UIViewController {
     let nameSort = NSSortDescriptor(key: #keyPath(Color.name), ascending: true)
     let cacheName = "colorLibrary"
 
+    let searchController = UISearchController(searchResultsController: nil)
+
     var coreDataStack: CoreDataStack!
     var fetchedResultsController = NSFetchedResultsController<Color>()
     var sort = Sort.alphabetical
+    var filterPredicate: NSPredicate? = nil
 
     lazy var sectionKeyPath: String = {
         #keyPath(Color.name)
@@ -52,22 +55,27 @@ class ColorListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fetchedResultsController = createFetchedResultsController()
-
-        do {
-            try fetchedResultsController.performFetch()
-        } catch let error as NSError {
-            print("Fetching error: \(error), \(error.userInfo)")
-        }
+        setupSearchController()
+        fetchedResultsController = setupFetchedResultsController()
+        refreshData()
     }
 
-    //MARK: - Internal
-    func createFetchedResultsController() -> NSFetchedResultsController<Color> {
+    //MARK: - Setup
+    func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+
+    func setupFetchedResultsController() -> NSFetchedResultsController<Color> {
 
         NSFetchedResultsController<NSFetchRequestResult>.deleteCache(withName: cacheName)
 
         let fetchRequest: NSFetchRequest<Color> = Color.fetchRequest()
         fetchRequest.sortDescriptors = sortDescriptors
+        fetchRequest.predicate = filterPredicate
 
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -78,6 +86,28 @@ class ColorListViewController: UIViewController {
         fetchedResultsController.delegate = self
 
         return fetchedResultsController
+    }
+
+    //MARK: - Internal
+    func refreshData() {
+        do {
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            print("Fetching error: \(error), \(error.userInfo)")
+        }
+    }
+
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+
+        if searchText.count < 1 {
+            filterPredicate = nil
+        } else {
+            filterPredicate = NSPredicate(format:"name CONTAINS[cd] '\(searchText)' || category CONTAINS[cd] '\(searchText)' || hex CONTAINS[cd] '\(searchText)'")
+        }
+
+        fetchedResultsController = setupFetchedResultsController()
+        refreshData()
+        tableView.reloadData()
     }
 
     func sortResultsController(criteria: Sort) {
@@ -94,13 +124,8 @@ class ColorListViewController: UIViewController {
             sortDescriptors = [favoriteSort]
         }
 
-        fetchedResultsController = createFetchedResultsController()
-
-        do {
-            try fetchedResultsController.performFetch()
-        } catch let error as NSError {
-            print("Fetching error: \(error), \(error.userInfo)")
-        }
+        fetchedResultsController = setupFetchedResultsController()
+        refreshData()
     }
 
     //MARK: - Navigation
@@ -163,8 +188,6 @@ extension ColorListViewController: UITableViewDataSource {
     }
 }
 
-
-
 // MARK: - UITableViewDelegate
 extension ColorListViewController: UITableViewDelegate {
 
@@ -178,6 +201,7 @@ extension ColorListViewController: UITableViewDelegate {
 
 // MARK: - NSFetchedResultsControllerDelegate
 extension ColorListViewController: NSFetchedResultsControllerDelegate {
+
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -206,10 +230,16 @@ extension ColorListViewController: NSFetchedResultsControllerDelegate {
 extension ColorListViewController: SortTableViewControllerDelegate {
 
     func sortSelected(sort: Sort) {
-
         self.sort = sort
         sortResultsController(criteria: sort)
         tableView.reloadData()
     }
 }
 
+// MARK: - UISearchResultsUpdatingDelegate
+extension ColorListViewController: UISearchResultsUpdating {
+
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+}
