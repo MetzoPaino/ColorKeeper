@@ -58,7 +58,6 @@ class ColorListViewController: UIViewController {
     var fetchedResultsController = NSFetchedResultsController<Color>()
     var sort = Sort.alphabetical
 
-
     var filterPredicate: NSPredicate? = nil
 
     lazy var sectionKeyPath: String = {
@@ -220,10 +219,22 @@ extension ColorListViewController: UITableViewDataSource {
         switch sort {
         case .alphabetical:
             return nil
-        case .category, .favorite:
+        case .category:
             let sectionInfo = fetchedResultsController.sections?[section]
             return sectionInfo?.name
+        case .favorite:
+
+            guard let sectionInfo = fetchedResultsController.sections?[section] else {
+                return nil
+            }
+
+            if sectionInfo.name == "1" {
+                return "Favorites"
+            } else {
+                return "Colors"
+            }
         }
+
     }
 }
 
