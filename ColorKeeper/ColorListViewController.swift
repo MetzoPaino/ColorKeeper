@@ -26,7 +26,7 @@ enum Sort {
     }
 }
 
-class ViewController: UIViewController {
+class ColorListViewController: UIViewController {
 
     //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
@@ -117,7 +117,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: - UIPopoverPresentationControllerDelegate
-extension ViewController: UIPopoverPresentationControllerDelegate {
+extension ColorListViewController: UIPopoverPresentationControllerDelegate {
 
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return UIModalPresentationStyle.none
@@ -125,7 +125,7 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
 }
 
 // MARK: - UITableViewDataSource
-extension ViewController: UITableViewDataSource {
+extension ColorListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         guard let sections = fetchedResultsController.sections else {
@@ -166,7 +166,7 @@ extension ViewController: UITableViewDataSource {
 
 
 // MARK: - UITableViewDelegate
-extension ViewController: UITableViewDelegate {
+extension ColorListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
@@ -177,7 +177,7 @@ extension ViewController: UITableViewDelegate {
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
-extension ViewController: NSFetchedResultsControllerDelegate {
+extension ColorListViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -203,7 +203,7 @@ extension ViewController: NSFetchedResultsControllerDelegate {
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
-extension ViewController: SortTableViewControllerDelegate {
+extension ColorListViewController: SortTableViewControllerDelegate {
 
     func sortSelected(sort: Sort) {
 
