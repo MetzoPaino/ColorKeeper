@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FilterTableViewCell: UITableViewCell {
+class SortTableViewCell: UITableViewCell {
 
     // MARK: - IBOutlets
     @IBOutlet weak var label: UILabel!
@@ -16,11 +16,15 @@ class FilterTableViewCell: UITableViewCell {
     // MARK: - View Life Cycle
     override func prepareForReuse() {
         super.prepareForReuse()
-
+        
         label.text = nil
     }
 
     func configure(string: String) {
         label.text = string
+
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.green
+        selectedBackgroundView = backgroundView
     }
 }

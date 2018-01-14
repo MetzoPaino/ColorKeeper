@@ -11,16 +11,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Filter Table View Controller-->
+        <!--Sort Table View Controller-->
         <scene sceneID="102-wX-jth">
             <objects>
-                <tableViewController id="gtm-nj-Sja" customClass="FilterTableViewController" customModule="ColorKeeper" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="gtm-nj-Sja" customClass="SortTableViewController" customModule="ColorKeeper" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="hdS-ef-irK">
                         <rect key="frame" x="0.0" y="0.0" width="120" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="avz-jJ-90P" customClass="FilterTableViewCell" customModule="ColorKeeper" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="avz-jJ-90P" customClass="SortTableViewCell" customModule="ColorKeeper" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="120" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="avz-jJ-90P" id="MNJ-Ff-qyO">
@@ -56,7 +56,7 @@
                             <outlet property="delegate" destination="gtm-nj-Sja" id="DSU-ym-olO"/>
                         </connections>
                     </tableView>
-                    <value key="contentSizeForViewInPopover" type="size" width="120" height="200"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="120" height="120"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="120" height="200"/>
@@ -65,10 +65,10 @@
             </objects>
             <point key="canvasLocation" x="1094" y="93"/>
         </scene>
-        <!--View Controller-->
+        <!--ColorList-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ColorKeeper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ColorListViewController" customModule="ColorKeeper" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -149,8 +149,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="xqm-RK-wFz">
-                        <barButtonItem key="rightBarButtonItem" title="Filter" id="DLx-ZP-yJ4">
+                    <navigationItem key="navigationItem" title="ColorList" id="xqm-RK-wFz">
+                        <barButtonItem key="rightBarButtonItem" title="Sort" id="DLx-ZP-yJ4">
                             <connections>
                                 <segue destination="gtm-nj-Sja" kind="popoverPresentation" identifier="FilterSegue" popoverAnchorBarButtonItem="DLx-ZP-yJ4" id="Q0L-85-rPJ">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>

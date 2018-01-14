@@ -8,43 +8,61 @@
 
 import UIKit
 
-protocol FilterTableViewControllerDelegate: class {
-    func filterSelected(filter: Filter)
+protocol SortTableViewControllerDelegate: class {
+    func sortSelected(sort: Sort)
 }
 
-class FilterTableViewController: UITableViewController {
+class SortTableViewController: UITableViewController {
 
-    weak var delegate: FilterTableViewControllerDelegate?
+    weak var delegate: SortTableViewControllerDelegate?
 
-    let filterArray = [Filter.alphabetical, .category, .favorite]
-    lazy var selectedFilter = filterArray.first
+    let sortArray = [Sort.alphabetical, .category, .favorite]
+    var selectedSortCriteria = Sort.alphabetical
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        clearsSelectionOnViewWillAppear = false;
+        tableView.isScrollEnabled = false
+        tableView.tableFooterView = UIView()
+
+        for (index, sortCriteria) in sortArray.enumerated() {
+
+            if selectedSortCriteria == sortCriteria {
+                selectCell(indexPath: IndexPath(item: index, section: 0))
+            }
+        }
+
+    }
+
+    func selectCell(indexPath:IndexPath) {
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
     }
 
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filterArray.count
+        return sortArray.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? FilterTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? SortTableViewCell else {
             return UITableViewCell()
         }
 
-        cell.configure(string: filterArray[indexPath.row].stringValue)
+        let sortCriterea = sortArray[indexPath.row]
+        cell.configure(string: sortArray[indexPath.row].stringValue)
+        cell.isSelected = sortCriterea == selectedSortCriteria
+
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.delegate?.filterSelected(filter: filterArray[indexPath.row])
+        self.delegate?.sortSelected(sort: sortArray[indexPath.row])
+        dismiss(animated: true, completion: nil)
     }
 
     /*

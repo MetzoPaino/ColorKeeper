@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-enum Filter {
+enum Sort {
     case alphabetical
     case category
     case favorite
@@ -26,43 +26,34 @@ enum Filter {
     }
 }
 
-class ViewController: UIViewController, UIPopoverPresentationControllerDelegate {
+class ColorListViewController: UIViewController {
 
+    //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
 
+    //MARK: - Variables
+    let categorySort = NSSortDescriptor(key: #keyPath(Color.category), ascending: true)
+    let favoriteSort = NSSortDescriptor(key: #keyPath(Color.favorite), ascending: false)
+    let nameSort = NSSortDescriptor(key: #keyPath(Color.name), ascending: true)
+    let cacheName = "colorLibrary"
+
     var coreDataStack: CoreDataStack!
-    var filter = Filter.alphabetical
+    var fetchedResultsController = NSFetchedResultsController<Color>()
+    var sort = Sort.alphabetical
 
-    lazy var fetchedResultsController: NSFetchedResultsController<Color> = {
-        let fetchRequest: NSFetchRequest<Color> = Color.fetchRequest()
-        let zoneSort = NSSortDescriptor(key: #keyPath(Color.category), ascending: true)
-        let scoreSort = NSSortDescriptor(key: #keyPath(Color.favorite), ascending: false)
-        let nameSort = NSSortDescriptor(key: #keyPath(Color.name), ascending: true)
-
-        switch filter {
-            case .alphabetical:
-                fetchRequest.sortDescriptors = [nameSort]
-            default:
-                fetchRequest.sortDescriptors = [zoneSort, nameSort]
-        }
-
-
-        let fetchedResultsController = NSFetchedResultsController(
-            fetchRequest: fetchRequest,
-            managedObjectContext: coreDataStack.managedContext,
-            sectionNameKeyPath: #keyPath(Color.category),
-            cacheName: "colorLibrary")
-
-        fetchedResultsController.delegate = self
-
-        return fetchedResultsController
+    lazy var sectionKeyPath: String = {
+        #keyPath(Color.name)
     }()
-
+    lazy var sortDescriptors: [NSSortDescriptor] = {
+        [nameSort]
+    }()
 
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        fetchedResultsController = createFetchedResultsController()
+
         do {
             try fetchedResultsController.performFetch()
         } catch let error as NSError {
@@ -70,36 +61,77 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         }
     }
 
-    func sortResultsController(criteria: Filter) {
+    //MARK: - Internal
+    func createFetchedResultsController() -> NSFetchedResultsController<Color> {
 
-        let zoneSort = NSSortDescriptor(key: #keyPath(Color.category), ascending: true)
-        //let scoreSort = NSSortDescriptor(key: #keyPath(Color.favorite), ascending: false)
-        let nameSort = NSSortDescriptor(key: #keyPath(Color.name), ascending: true)
+        NSFetchedResultsController<NSFetchRequestResult>.deleteCache(withName: cacheName)
+
+        let fetchRequest: NSFetchRequest<Color> = Color.fetchRequest()
+        fetchRequest.sortDescriptors = sortDescriptors
+
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: coreDataStack.managedContext,
+            sectionNameKeyPath: sectionKeyPath,
+            cacheName: cacheName)
+
+        fetchedResultsController.delegate = self
+
+        return fetchedResultsController
+    }
+
+    func sortResultsController(criteria: Sort) {
 
         switch criteria {
         case .alphabetical:
-            fetchedResultsController.fetchRequest.sortDescriptors = [nameSort]
-        default:
-            fetchedResultsController.fetchRequest.sortDescriptors = [zoneSort, nameSort]
+            sectionKeyPath = #keyPath(Color.name)
+            sortDescriptors = [nameSort]
+        case .category:
+            sectionKeyPath = #keyPath(Color.category)
+            sortDescriptors = [categorySort, nameSort]
+        case .favorite:
+            sectionKeyPath = #keyPath(Color.favorite)
+            sortDescriptors = [favoriteSort]
         }
+
+        fetchedResultsController = createFetchedResultsController()
 
         do {
             try fetchedResultsController.performFetch()
         } catch let error as NSError {
             print("Fetching error: \(error), \(error.userInfo)")
+        }
+    }
+
+    //MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "FilterSegue" {
+            let popoverViewController = segue.destination as! SortTableViewController
+            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
+            popoverViewController.popoverPresentationController!.delegate = self
+            popoverViewController.delegate = self
+            popoverViewController.selectedSortCriteria = sort
         }
     }
 }
 
+// MARK: - UIPopoverPresentationControllerDelegate
+extension ColorListViewController: UIPopoverPresentationControllerDelegate {
+
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
+}
+
 // MARK: - UITableViewDataSource
-extension ViewController: UITableViewDataSource {
+extension ColorListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         guard let sections = fetchedResultsController.sections else {
             return 0
         }
         return sections.count
-
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -121,27 +153,31 @@ extension ViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 
-        switch filter {
+        switch sort {
         case .alphabetical:
             return nil
-        default:
+        case .category, .favorite:
             let sectionInfo = fetchedResultsController.sections?[section]
             return sectionInfo?.name
         }
     }
 }
 
+
+
 // MARK: - UITableViewDelegate
-extension ViewController: UITableViewDelegate {
+extension ColorListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         let team = fetchedResultsController.object(at: indexPath)
         team.favorite = !team.favorite
         coreDataStack.saveContext()
     }
 }
 
-extension ViewController: NSFetchedResultsControllerDelegate {
+// MARK: - NSFetchedResultsControllerDelegate
+extension ColorListViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -164,27 +200,15 @@ extension ViewController: NSFetchedResultsControllerDelegate {
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
     }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "FilterSegue" {
-            let popoverViewController = segue.destination as! FilterTableViewController
-            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
-            popoverViewController.popoverPresentationController!.delegate = self
-            popoverViewController.delegate = self
-        }
-    }
-
-    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.none
-    }
 }
 
-extension ViewController: FilterTableViewControllerDelegate {
+// MARK: - NSFetchedResultsControllerDelegate
+extension ColorListViewController: SortTableViewControllerDelegate {
 
-    func filterSelected(filter: Filter) {
+    func sortSelected(sort: Sort) {
 
-        sortResultsController(criteria: filter)
-        self.filter = filter
+        self.sort = sort
+        sortResultsController(criteria: sort)
         tableView.reloadData()
     }
 }
