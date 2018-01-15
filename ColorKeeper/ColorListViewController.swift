@@ -26,21 +26,6 @@ enum Sort {
     }
 }
 
-enum Filter {
-    case favorite
-
-//    var stringValue: String {
-//        switch self {
-//        case .none:
-//            return "A - Z"
-//        case .category:
-//            return "Group"
-//        case .favorite:
-//            return "Fav"
-//        }
-//    }
-}
-
 class ColorListViewController: UIViewController {
 
     //MARK: - Outlets
@@ -66,10 +51,6 @@ class ColorListViewController: UIViewController {
     lazy var sortDescriptors: [NSSortDescriptor] = {
         [nameSort]
     }()
-    lazy var filterArray: [Filter] = {
-        []
-    }()
-
 
     //MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -243,8 +224,8 @@ extension ColorListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        let team = fetchedResultsController.object(at: indexPath)
-        team.favorite = !team.favorite
+        let color = fetchedResultsController.object(at: indexPath)
+        color.favorite = !color.favorite
         coreDataStack.saveContext()
     }
 }
@@ -278,9 +259,6 @@ extension ColorListViewController: NSFetchedResultsControllerDelegate {
 
 // MARK: - NSFetchedResultsControllerDelegate
 extension ColorListViewController: SortTableViewControllerDelegate {
-
-    func filterSelected(sort: Sort) {
-    }
 
     func sortSelected(sort: Sort) {
         self.sort = sort

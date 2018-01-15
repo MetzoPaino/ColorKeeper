@@ -6,7 +6,12 @@
         <attribute name="hex" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="Flag" representedClassName="Flag" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="colors" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Color" syncable="YES"/>
+    </entity>
     <elements>
         <element name="Color" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="Flag" positionX="-63" positionY="9" width="128" height="75"/>
     </elements>
 </model>

@@ -34,7 +34,7 @@ enum OrganiseType {
 
 protocol SortTableViewControllerDelegate: class {
     func sortSelected(sort: Sort)
-    func filterSelected(sort: Sort)
+    //func filterSelected(sort: Sort)
 
 }
 
@@ -114,7 +114,6 @@ class SortTableViewController: UITableViewController {
 
         default:
             cell.configure(string: filterCriteria[indexPath.row])
-
         }
 
         return cell
