@@ -155,11 +155,11 @@ extension AppDelegate {
 //                flag.colors = NSOrderedSet(array: array)
 
                 print(flag.colors?.array)
-//                do {
-//                    try flag.managedObjectContext?.save()
-//                } catch let error as NSError {
-//                    print("saving error: \(error), \(error.userInfo)")
-//                }
+                do {
+                    try flag.managedObjectContext?.save()
+                } catch let error as NSError {
+                    print("saving error: \(error), \(error.userInfo)")
+                }
 
             }
 

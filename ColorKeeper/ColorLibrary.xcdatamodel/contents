@@ -5,13 +5,14 @@
         <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="hex" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="flags" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Flag" inverseName="colors" inverseEntity="Flag" syncable="YES"/>
     </entity>
     <entity name="Flag" representedClassName="Flag" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="colors" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Color" syncable="YES"/>
+        <relationship name="colors" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Color" inverseName="flags" inverseEntity="Color" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Color" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="Flag" positionX="-47" positionY="177" width="128" height="73"/>
+        <element name="Color" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="Flag" positionX="-47" positionY="177" width="128" height="75"/>
     </elements>
 </model>
