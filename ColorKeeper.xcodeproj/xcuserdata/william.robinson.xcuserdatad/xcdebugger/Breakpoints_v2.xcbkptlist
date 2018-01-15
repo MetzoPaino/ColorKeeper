@@ -19,29 +19,27 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ColorKeeper/FlagDetailViewController.swift"
-            timestampString = "537744721.763085"
+            filePath = "ColorKeeper/ViewControllers/MasterTabBarViewController.swift"
+            timestampString = "537748562.555904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
+            startingLineNumber = "40"
+            endingLineNumber = "40">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ColorKeeper/AppDelegate.swift"
-            timestampString = "537744721.763456"
+            filePath = "ColorKeeper/ViewControllers/LandingViewController.swift"
+            timestampString = "537748562.555966"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
-            landmarkName = "importJSONFlagData()"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -51,13 +49,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ColorKeeper/ViewControllers/MasterTabBarViewController.swift"
-            timestampString = "537744721.763718"
+            filePath = "ColorKeeper/FlagCollectionViewCell.swift"
+            timestampString = "537748650.5024689"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "prepare(for:sender:)"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "configure(flag:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

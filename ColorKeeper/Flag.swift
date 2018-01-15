@@ -16,13 +16,15 @@
 //    }
 //
 //    @NSManaged public var name: String?
-//    @NSManaged public var colors: String?
+//    @NSManaged public var colors: NSOrderedSet?
 //
 //}
+//
+//extension Flag {
+//
+//    func getColorsArray() -> [Color] {
+////        return colors?.allObjects as! [Color]
+//        return colors?.array as! [Color]
+//    }
+//}
 
-extension Flag {
-
-    func getColorsArray() -> [Color] {
-        return colors?.allObjects as! [Color]
-    }
-}

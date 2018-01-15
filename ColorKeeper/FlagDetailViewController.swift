@@ -14,7 +14,7 @@ class FlagDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(flag.getColorsArray())
+//        print(flag.getColorsArray())
         title = flag.name
 
         // Do any additional setup after loading the view.
@@ -50,7 +50,7 @@ extension FlagDetailViewController: UITableViewDataSource {
 //        guard let sectionInfo = fetchedResultsController.sections?[section] else {
 //            return 0
 //        }
-        return flag.getColorsArray().count
+        return flag.colors!.array.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -62,7 +62,9 @@ extension FlagDetailViewController: UITableViewDataSource {
 //            cell.configure(color:color)
 //        }
 
-        let color = flag.getColorsArray()[indexPath.row]
+//        let color = flag.getColorsArray()[indexPath.row]
+        let color = flag.colors!.array[indexPath.row] as! Color
+
         cell.configure(color:color)
         return cell
     }

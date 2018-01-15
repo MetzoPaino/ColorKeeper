@@ -15,11 +15,16 @@ class MasterTabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        let colorList = self.viewControllers![0] as! ColorListViewController
+//        colorList.coreDataStack = coreDataStack
+
         let flagViewController = self.viewControllers![0] as! LandingViewController
         flagViewController.coreDataStack = coreDataStack
 
         let colorList = self.viewControllers![1] as! ColorListViewController
         colorList.coreDataStack = coreDataStack
+
+
     }
 
     override func didReceiveMemoryWarning() {

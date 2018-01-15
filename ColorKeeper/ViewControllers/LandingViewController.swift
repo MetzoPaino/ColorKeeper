@@ -77,6 +77,7 @@ extension LandingViewController: UICollectionViewDataSource {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! FlagCollectionViewCell
         let flag = fetchedResultsController.object(at: indexPath)
+        
         cell.configure(flag: flag)
         return cell
     }

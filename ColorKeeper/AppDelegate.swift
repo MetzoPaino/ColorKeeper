@@ -35,8 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        coreDataStack.saveContext()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -142,59 +141,26 @@ extension AppDelegate {
                 }
 
                 guard let array = fetchedResultsController.fetchedObjects else {
-                    flag.colors = NSSet()
+//                    flag.colors = NSSet()
+                    flag.colors = NSOrderedSet()
                     return
                 }
 
+
                 for color in array {
                     flag.addToColors(color)
+//                    flag.add
                 }
-                do {
-                    try flag.managedObjectContext?.save()
-                } catch let error as NSError {
-                    print("saving error: \(error), \(error.userInfo)")
-                }
-                print(flag.colors?.allObjects)
-                print(flag)
 
-//                if let flagComponentsArray = flag.colors?.allObjects as! [String] {
-//
-//                    for name in flagComponentsArray
+//                flag.colors = NSOrderedSet(array: array)
+
+                print(flag.colors?.array)
+//                do {
+//                    try flag.managedObjectContext?.save()
+//                } catch let error as NSError {
+//                    print("saving error: \(error), \(error.userInfo)")
 //                }
 
-
-//                if let flagComponentsArray = flag.colors?.array {
-//
-//                    for name in flagComponentsArray as!
-//
-//
-//                }
-
-
-//                NSMutableArray *subPredicates = [[NSMutableArray alloc] init];
-//                [attributes enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL *stop) {
-//                [subPredicates addObject:[NSPredicate predicateWithFormat:@"%K = %@", key, value]];
-//                }];
-//                NSPredicate *matchAttributes = [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates];
-
-
-
-//                flag.addToColors(<#T##value: Color##Color#>)
-
-//                color.hex = hex
-//                color.category = category
-//                color.favorite = favorite
-
-
-//let team = fetchedResultsController.object(at: indexPath)
-
-//                var fetchedResultsController = NSFetchedResultsController<Color>()
-
-
-
-//                fetchedResultsController.delegate = self
-
-//                return fetchedResultsController
             }
 
             coreDataStack.saveContext()
