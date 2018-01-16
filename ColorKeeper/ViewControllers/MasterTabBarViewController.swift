@@ -19,10 +19,6 @@ class MasterTabBarViewController: UITabBarController {
 
         for viewController in viewControllers! {
 
-//            if viewController is FlagListViewController {
-//                (viewController as! FlagListViewController).coreDataStack = coreDataStack
-//            }
-
             if viewController is UINavigationController {
 
                 if let flagList = (viewController as! UINavigationController).topViewController as? FlagListViewController {
