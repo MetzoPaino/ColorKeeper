@@ -20,4 +20,3 @@ public class Color: NSManagedObject {
     @NSManaged public var name: String?
     @NSManaged public var favorite: Bool
 }
-

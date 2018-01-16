@@ -13,19 +13,18 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    lazy var  coreDataStack = CoreDataStack(modelName: "ColorLibrary")
+    lazy var coreDataStack = CoreDataStack(modelName: "ColorLibrary")
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         importJSONDataIfNeeded()
 
         guard let navController = window?.rootViewController as? UINavigationController,
-            let viewController = navController.topViewController as? ColorListViewController else {
+            let viewController = navController.topViewController as? MasterTabBarViewController else {
                 return true
         }
 
         viewController.coreDataStack = coreDataStack
-        
         return true
     }
 
@@ -35,8 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        coreDataStack.saveContext()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -56,18 +54,22 @@ extension AppDelegate {
 
     func importJSONDataIfNeeded() {
 
-        let fetchRequest: NSFetchRequest<Color> = Color.fetchRequest()
-        let count = try? coreDataStack.managedContext.count(for: fetchRequest)
+        let colorFetchRequest: NSFetchRequest<Color> = Color.fetchRequest()
+        let flagFetchRequest: NSFetchRequest<Flag> = Flag.fetchRequest()
 
-        guard let colorCount = count,
-            colorCount == 0 else {
-                return
+        let colorCount = try? coreDataStack.managedContext.count(for: colorFetchRequest)
+        let flagCount = try? coreDataStack.managedContext.count(for: flagFetchRequest)
+
+        if let colorCount = colorCount, colorCount == 0 {
+            importJSONColorData()
         }
-       
-        importJSONSeedData()
+
+        if let flagCount = flagCount, flagCount == 0 {
+            importJSONFlagData()
+        }
     }
 
-    func importJSONSeedData() {
+    func importJSONColorData() {
 
         let jsonURL = Bundle.main.url(forResource: "colors", withExtension: "json")!
         let jsonData = try! Data(contentsOf: jsonURL)
@@ -94,5 +96,62 @@ extension AppDelegate {
             print("Error importing colors: \(error)")
         }
     }
-}
 
+    func importJSONFlagData() {
+
+        let jsonURL = Bundle.main.url(forResource: "flags", withExtension: "json")!
+        let jsonData = try! Data(contentsOf: jsonURL)
+
+        do {
+            let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options: [.allowFragments]) as! [[String: Any]]
+
+            for jsonDictionary in jsonArray {
+                let name = jsonDictionary["name"] as! String
+                let componentColorNamesArray = jsonDictionary["colors"] as! [Dictionary<String, String>]
+
+                var predicateArray = [NSPredicate]()
+
+                for componentColorNameDictionary in componentColorNamesArray {
+
+                    if let componentColorName = componentColorNameDictionary["name"] {
+                        predicateArray.append( NSPredicate(format:"name MATCHES[cd] '\(componentColorName)'"))
+                    }
+                }
+
+                let compoundPredicate = NSCompoundPredicate(orPredicateWithSubpredicates: predicateArray)
+                let flag = Flag(context: coreDataStack.managedContext)
+                flag.name = name
+
+                let fetchRequest: NSFetchRequest<Color> = Color.fetchRequest()
+                fetchRequest.sortDescriptors = [NSSortDescriptor(key: #keyPath(Color.name), ascending: true)]
+                fetchRequest.predicate = compoundPredicate
+
+                let fetchedResultsController = NSFetchedResultsController(
+                    fetchRequest: fetchRequest,
+                    managedObjectContext: coreDataStack.managedContext,
+                    sectionNameKeyPath: nil,
+                    cacheName: nil)
+
+                do {
+                    try fetchedResultsController.performFetch()
+                } catch let error as NSError {
+                    print("Fetching error: \(error), \(error.userInfo)")
+                }
+
+                guard let array = fetchedResultsController.fetchedObjects else {
+                    flag.colors = NSOrderedSet()
+                    return
+                }
+
+                for color in array {
+                    flag.addToColors(color)
+                }
+            }
+
+            coreDataStack.saveContext()
+
+        } catch let error as NSError {
+            print("Error importing flags: \(error)")
+        }
+    }
+}
