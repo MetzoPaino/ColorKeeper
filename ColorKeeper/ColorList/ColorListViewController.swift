@@ -28,7 +28,7 @@ enum Sort {
 
 class ColorListViewController: UIViewController {
 
-    //MARK: - Outlets
+    //MARK: - IBOutlets
     @IBOutlet weak var tableView: UITableView!
 
     //MARK: - Variables
@@ -55,7 +55,7 @@ class ColorListViewController: UIViewController {
     //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        definesPresentationContext = true
         setupSearchController()
         fetchedResultsController = setupFetchedResultsController()
         refreshData()
@@ -138,29 +138,11 @@ class ColorListViewController: UIViewController {
             popoverViewController.popoverPresentationController!.delegate = self
             popoverViewController.delegate = self
             popoverViewController.selectedSortCriteria = sort
-            popoverViewController.organiseType = OrganiseType.sort
-
-        } else if segue.identifier == "FilterSegue" {
-
-            let popoverViewController = segue.destination as! SortTableViewController
-            popoverViewController.modalPresentationStyle = UIModalPresentationStyle.popover
-            popoverViewController.popoverPresentationController!.delegate = self
-            popoverViewController.delegate = self
-            //popoverViewController.selectedFilterCriteria
-            popoverViewController.organiseType = OrganiseType.filter
-
-            guard let sections = fetchedResultsController.sections else { return }
-            var sectionNameArray = [String]()
-            for sectionInfo in sections {
-                sectionNameArray.append(sectionInfo.name)
-            }
-
-            popoverViewController.filterCriteria = sectionNameArray
         }
     }
 }
 
-// MARK: - UIPopoverPresentationControllerDelegate
+//MARK: - UIPopoverPresentationControllerDelegate
 extension ColorListViewController: UIPopoverPresentationControllerDelegate {
 
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
@@ -168,7 +150,7 @@ extension ColorListViewController: UIPopoverPresentationControllerDelegate {
     }
 }
 
-// MARK: - UITableViewDataSource
+//MARK: - UITableViewDataSource
 extension ColorListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -204,22 +186,17 @@ extension ColorListViewController: UITableViewDataSource {
             let sectionInfo = fetchedResultsController.sections?[section]
             return sectionInfo?.name
         case .favorite:
-
-            guard let sectionInfo = fetchedResultsController.sections?[section] else {
-                return nil
-            }
-
-            if sectionInfo.name == "1" {
+            let sectionInfo = fetchedResultsController.sections?[section]
+            if sectionInfo?.name == "1" {
                 return "Favorites"
             } else {
                 return "Colors"
             }
         }
-
     }
 }
 
-// MARK: - UITableViewDelegate
+//MARK: - UITableViewDelegate
 extension ColorListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -230,7 +207,7 @@ extension ColorListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - NSFetchedResultsControllerDelegate
+//MARK: - NSFetchedResultsControllerDelegate
 extension ColorListViewController: NSFetchedResultsControllerDelegate {
 
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -239,10 +216,14 @@ extension ColorListViewController: NSFetchedResultsControllerDelegate {
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 
+        guard let indexPath = indexPath else {
+            return
+        }
+
         switch type {
         case .update:
-            let color = fetchedResultsController.object(at: indexPath!)
-            let cell = tableView.cellForRow(at: indexPath!) as! ColorTableViewCell
+            let color = fetchedResultsController.object(at: indexPath)
+            let cell = tableView.cellForRow(at: indexPath) as! ColorTableViewCell
             cell.configure(color: color)
         case .move, .delete, .insert:
             break
@@ -257,7 +238,7 @@ extension ColorListViewController: NSFetchedResultsControllerDelegate {
     }
 }
 
-// MARK: - NSFetchedResultsControllerDelegate
+//MARK: - NSFetchedResultsControllerDelegate
 extension ColorListViewController: SortTableViewControllerDelegate {
 
     func sortSelected(sort: Sort) {
@@ -267,7 +248,7 @@ extension ColorListViewController: SortTableViewControllerDelegate {
     }
 }
 
-// MARK: - UISearchResultsUpdatingDelegate
+//MARK: - UISearchResultsUpdatingDelegate
 extension ColorListViewController: UISearchResultsUpdating {
 
     func updateSearchResults(for searchController: UISearchController) {

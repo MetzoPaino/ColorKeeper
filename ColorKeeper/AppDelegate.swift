@@ -25,7 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         viewController.coreDataStack = coreDataStack
-        
         return true
     }
 
@@ -68,7 +67,6 @@ extension AppDelegate {
         if let flagCount = flagCount, flagCount == 0 {
             importJSONFlagData()
         }
-       
     }
 
     func importJSONColorData() {
@@ -141,26 +139,13 @@ extension AppDelegate {
                 }
 
                 guard let array = fetchedResultsController.fetchedObjects else {
-//                    flag.colors = NSSet()
                     flag.colors = NSOrderedSet()
                     return
                 }
 
-
                 for color in array {
                     flag.addToColors(color)
-//                    flag.add
                 }
-
-//                flag.colors = NSOrderedSet(array: array)
-
-                print(flag.colors?.array)
-                do {
-                    try flag.managedObjectContext?.save()
-                } catch let error as NSError {
-                    print("saving error: \(error), \(error.userInfo)")
-                }
-
             }
 
             coreDataStack.saveContext()
@@ -169,10 +154,4 @@ extension AppDelegate {
             print("Error importing flags: \(error)")
         }
     }
-}
-
-extension AppDelegate {
-
-
-
 }

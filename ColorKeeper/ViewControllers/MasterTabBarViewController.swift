@@ -10,35 +10,31 @@ import UIKit
 
 class MasterTabBarViewController: UITabBarController {
 
+    //MARK: - Variables
     var coreDataStack: CoreDataStack!
 
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        let colorList = self.viewControllers![0] as! ColorListViewController
-//        colorList.coreDataStack = coreDataStack
+        for viewController in viewControllers! {
 
-        let flagViewController = self.viewControllers![0] as! LandingViewController
-        flagViewController.coreDataStack = coreDataStack
+//            if viewController is FlagListViewController {
+//                (viewController as! FlagListViewController).coreDataStack = coreDataStack
+//            }
 
-        let colorList = self.viewControllers![1] as! ColorListViewController
-        colorList.coreDataStack = coreDataStack
+            if viewController is UINavigationController {
 
+                if let flagList = (viewController as! UINavigationController).topViewController as? FlagListViewController {
 
+                    flagList.coreDataStack = coreDataStack
+                }
+
+                if let colorList = (viewController as! UINavigationController).topViewController as? ColorListViewController {
+
+                    colorList.coreDataStack = coreDataStack
+                }
+            }
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-
 }

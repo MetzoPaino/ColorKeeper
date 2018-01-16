@@ -11,11 +11,8 @@ import CoreData
 
 class CoreDataStack {
 
+    //MARK: - Variables
     private let modelName: String
-
-    init(modelName: String) {
-        self.modelName = modelName
-    }
 
     lazy var managedContext: NSManagedObjectContext = {
         return self.storeContainer.viewContext
@@ -31,6 +28,11 @@ class CoreDataStack {
         }
         return container
     }()
+
+    //MARK: - Life Cycle
+    init(modelName: String) {
+        self.modelName = modelName
+    }
 
     func saveContext () {
         guard managedContext.hasChanges else { return }

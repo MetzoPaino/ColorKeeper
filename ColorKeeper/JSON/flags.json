@@ -1,0 +1,142 @@
+[
+  {
+    "name": "Belgium",
+    "colors": [
+      {
+      "name": "Black",
+      },
+      {
+      "name": "Gorse",
+      },
+      {
+      "name": "Deep Carmine Pink",
+      }
+    ]
+  },
+  {
+    "name": "Ivory Coast",
+    "colors": [
+      {
+      "name": "Gold Drop",
+      },
+      {
+      "name": "White",
+      },
+      {
+      "name": "Shamrock Green",
+      }
+    ]
+  },
+  {
+    "name": "France",
+    "colors": [
+      {
+      "name": "Resolution Blue",
+      },
+      {
+      "name": "White",
+      },
+      {
+      "name": "Deep Carmine Pink",
+      }
+    ]
+  },
+  {
+    "name": "Guinea",
+    "colors": [
+      {
+      "name": "Lava",
+      },
+      {
+      "name": "Candlelight",
+      },
+      {
+      "name": "Shamrock Green",
+      }
+    ]
+  },
+  {
+    "name": "Italy",
+    "colors": [
+      {
+      "name": "Moss",
+      },
+      {
+      "name": "White",
+      },
+      {
+      "name": "Persian Red",
+      }
+    ]
+  },
+  {
+    "name": "Ireland",
+    "colors": [
+      {
+      "name": "Elf Green",
+      },
+      {
+      "name": "White",
+      },
+      {
+      "name": "Mango Tango",
+      }
+    ]
+  },
+  {
+    "name": "Mali",
+    "colors": [
+      {
+      "name": "Dark Pastel Green",
+      },
+      {
+      "name": "Candlelight",
+      },
+      {
+      "name": "Lava",
+      }
+    ]
+  },
+  {
+    "name": "Romania",
+    "colors": [
+      {
+      "name": "Catalina Blue",
+      },
+      {
+      "name": "Candlelight",
+      },
+      {
+      "name": "Lava",
+      }
+    ]
+  },
+  {
+    "name": "Chad",
+    "colors": [
+      {
+      "name": "Cool Black",
+      },
+      {
+      "name": "Tangerine",
+      },
+      {
+      "name": "Crimson Glory",
+      }
+    ]
+  },
+  {
+    "name": "Germany",
+    "colors": [
+      {
+      "name": "Black",
+      },
+      {
+      "name": "Sunglow",
+      },
+      {
+      "name": "Red",
+      }
+    ]
+  }
+ ]

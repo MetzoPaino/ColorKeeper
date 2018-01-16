@@ -10,28 +10,21 @@ import UIKit
 
 class ColorTableViewCell: UITableViewCell {
 
-    // MARK: - IBOutlets
+    //MARK: - IBOutlets
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var hexLabel: UILabel!
     @IBOutlet weak var hexImageView: UIImageView!
     @IBOutlet weak var favoriteImageView: UIImageView!
 
-    // MARK: - View Life Cycle
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        nameLabel.text = nil
-        hexLabel.text = nil
-        hexImageView.image = nil
-        favoriteImageView.image = nil
-    }
-
+    //MARK: - View Life Cycle
     func configure(color:Color) {
 
         nameLabel.text = color.name
         hexLabel.text = color.hex
-        hexImageView.backgroundColor = UIColor(hex: color.hex!)
-        
+        if let hex = color.hex {
+            hexImageView.backgroundColor = UIColor(hex: hex)
+        }
+
         if color.favorite {
             favoriteImageView.image = #imageLiteral(resourceName: "StarSelected")
         } else {

@@ -10,16 +10,10 @@ import UIKit
 
 class SortTableViewCell: UITableViewCell {
 
-    // MARK: - IBOutlets
+    //MARK: - IBOutlets
     @IBOutlet weak var label: UILabel!
 
-    // MARK: - View Life Cycle
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        label.text = nil
-    }
-
+    //MARK: - Setup
     func configure(string: String) {
         label.text = string
 

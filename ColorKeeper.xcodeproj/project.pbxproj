@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A3D25C8200BFB4F006D42A8 /* LandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D25C7200BFB4F006D42A8 /* LandingViewController.swift */; };
+		0A3D25C8200BFB4F006D42A8 /* FlagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3D25C7200BFB4F006D42A8 /* FlagListViewController.swift */; };
 		0A59132220090C5100335DA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A59132120090C5100335DA4 /* AppDelegate.swift */; };
 		0A59132420090C5100335DA4 /* ColorListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A59132320090C5100335DA4 /* ColorListViewController.swift */; };
 		0A59132720090C5100335DA4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A59132520090C5100335DA4 /* Main.storyboard */; };
@@ -17,11 +17,10 @@
 		0A59133620090E5500335DA4 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A59133520090E5500335DA4 /* Color.swift */; };
 		0A59133820090F8400335DA4 /* ColorLibrary.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 0A59133720090F8400335DA4 /* ColorLibrary.xcdatamodel */; };
 		0A59133B20090FD000335DA4 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A59133A20090FD000335DA4 /* CoreDataStack.swift */; };
-		0A59133D200947FD00335DA4 /* HEX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A59133C200947FD00335DA4 /* HEX.swift */; };
+		0A59133D200947FD00335DA4 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A59133C200947FD00335DA4 /* UIColor+Extension.swift */; };
 		0A59133F2009489F00335DA4 /* ColorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A59133E2009489F00335DA4 /* ColorTableViewCell.swift */; };
 		0A591341200A4B4000335DA4 /* SortTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A591340200A4B4000335DA4 /* SortTableViewController.swift */; };
 		0A591343200A4C8100335DA4 /* SortTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A591342200A4C8100335DA4 /* SortTableViewCell.swift */; };
-		0A8BE24E200D38B700B1A312 /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8BE24C200D38B700B1A312 /* Flag.swift */; };
 		0A8BE24F200D38B700B1A312 /* flags.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A8BE24D200D38B700B1A312 /* flags.json */; };
 		0A8BE251200D4C1300B1A312 /* FlagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8BE250200D4C1300B1A312 /* FlagCollectionViewCell.swift */; };
 		0A8BE253200D4D6300B1A312 /* FlagDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8BE252200D4D6300B1A312 /* FlagDetailViewController.swift */; };
@@ -29,7 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0A3D25C7200BFB4F006D42A8 /* LandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LandingViewController.swift; path = ViewControllers/LandingViewController.swift; sourceTree = "<group>"; };
+		0A3D25C7200BFB4F006D42A8 /* FlagListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagListViewController.swift; sourceTree = "<group>"; };
 		0A59131E20090C5100335DA4 /* ColorKeeper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorKeeper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A59132120090C5100335DA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A59132320090C5100335DA4 /* ColorListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorListViewController.swift; sourceTree = "<group>"; };
@@ -41,11 +40,10 @@
 		0A59133520090E5500335DA4 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0A59133720090F8400335DA4 /* ColorLibrary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ColorLibrary.xcdatamodel; sourceTree = "<group>"; };
 		0A59133A20090FD000335DA4 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		0A59133C200947FD00335DA4 /* HEX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HEX.swift; sourceTree = "<group>"; };
+		0A59133C200947FD00335DA4 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		0A59133E2009489F00335DA4 /* ColorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTableViewCell.swift; sourceTree = "<group>"; };
 		0A591340200A4B4000335DA4 /* SortTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTableViewController.swift; sourceTree = "<group>"; };
 		0A591342200A4C8100335DA4 /* SortTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTableViewCell.swift; sourceTree = "<group>"; };
-		0A8BE24C200D38B700B1A312 /* Flag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flag.swift; sourceTree = "<group>"; };
 		0A8BE24D200D38B700B1A312 /* flags.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = flags.json; sourceTree = "<group>"; };
 		0A8BE250200D4C1300B1A312 /* FlagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagCollectionViewCell.swift; sourceTree = "<group>"; };
 		0A8BE252200D4D6300B1A312 /* FlagDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagDetailViewController.swift; sourceTree = "<group>"; };
@@ -82,28 +80,83 @@
 		0A59132020090C5100335DA4 /* ColorKeeper */ = {
 			isa = PBXGroup;
 			children = (
+				0A59132820090C5100335DA4 /* Assets.xcassets */,
 				0A59132120090C5100335DA4 /* AppDelegate.swift */,
 				0A8BE254200D52DA00B1A312 /* MasterTabBarViewController.swift */,
-				0A59133720090F8400335DA4 /* ColorLibrary.xcdatamodel */,
+				0AAE27B5200E8A4D00244991 /* Storyboards */,
+				0AAE27B3200E896E00244991 /* CoreData */,
+				0AAE27B6200E8B4E00244991 /* FlagList */,
+				0AAE27B7200EA22700244991 /* ColorList */,
+				0AAE27B9200EABF500244991 /* Support Files */,
+				0AAE27B4200E89C300244991 /* JSON */,
+			);
+			path = ColorKeeper;
+			sourceTree = "<group>";
+		};
+		0AAE27B3200E896E00244991 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
 				0A59133520090E5500335DA4 /* Color.swift */,
-				0A8BE24C200D38B700B1A312 /* Flag.swift */,
 				0A59133A20090FD000335DA4 /* CoreDataStack.swift */,
-				0A59132320090C5100335DA4 /* ColorListViewController.swift */,
-				0A3D25C7200BFB4F006D42A8 /* LandingViewController.swift */,
-				0A8BE250200D4C1300B1A312 /* FlagCollectionViewCell.swift */,
-				0A8BE252200D4D6300B1A312 /* FlagDetailViewController.swift */,
-				0A591340200A4B4000335DA4 /* SortTableViewController.swift */,
-				0A591342200A4C8100335DA4 /* SortTableViewCell.swift */,
-				0A59133E2009489F00335DA4 /* ColorTableViewCell.swift */,
-				0A59133C200947FD00335DA4 /* HEX.swift */,
-				0A59132520090C5100335DA4 /* Main.storyboard */,
-				0A59132820090C5100335DA4 /* Assets.xcassets */,
-				0A59132A20090C5100335DA4 /* LaunchScreen.storyboard */,
-				0A59132D20090C5100335DA4 /* Info.plist */,
+				0A59133720090F8400335DA4 /* ColorLibrary.xcdatamodel */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		0AAE27B4200E89C300244991 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
 				0A8BE24D200D38B700B1A312 /* flags.json */,
 				0A59133320090D5800335DA4 /* colors.json */,
 			);
-			path = ColorKeeper;
+			path = JSON;
+			sourceTree = "<group>";
+		};
+		0AAE27B5200E8A4D00244991 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				0A59132520090C5100335DA4 /* Main.storyboard */,
+				0A59132A20090C5100335DA4 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		0AAE27B6200E8B4E00244991 /* FlagList */ = {
+			isa = PBXGroup;
+			children = (
+				0A3D25C7200BFB4F006D42A8 /* FlagListViewController.swift */,
+				0A8BE250200D4C1300B1A312 /* FlagCollectionViewCell.swift */,
+				0A8BE252200D4D6300B1A312 /* FlagDetailViewController.swift */,
+			);
+			path = FlagList;
+			sourceTree = "<group>";
+		};
+		0AAE27B7200EA22700244991 /* ColorList */ = {
+			isa = PBXGroup;
+			children = (
+				0A59132320090C5100335DA4 /* ColorListViewController.swift */,
+				0A59133E2009489F00335DA4 /* ColorTableViewCell.swift */,
+				0AAE27B8200EAA7B00244991 /* Sort */,
+			);
+			path = ColorList;
+			sourceTree = "<group>";
+		};
+		0AAE27B8200EAA7B00244991 /* Sort */ = {
+			isa = PBXGroup;
+			children = (
+				0A591340200A4B4000335DA4 /* SortTableViewController.swift */,
+				0A591342200A4C8100335DA4 /* SortTableViewCell.swift */,
+			);
+			path = Sort;
+			sourceTree = "<group>";
+		};
+		0AAE27B9200EABF500244991 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				0A59133C200947FD00335DA4 /* UIColor+Extension.swift */,
+				0A59132D20090C5100335DA4 /* Info.plist */,
+			);
+			path = "Support Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,15 +237,14 @@
 				0A59133B20090FD000335DA4 /* CoreDataStack.swift in Sources */,
 				0A8BE255200D52DA00B1A312 /* MasterTabBarViewController.swift in Sources */,
 				0A59133F2009489F00335DA4 /* ColorTableViewCell.swift in Sources */,
-				0A59133D200947FD00335DA4 /* HEX.swift in Sources */,
+				0A59133D200947FD00335DA4 /* UIColor+Extension.swift in Sources */,
 				0A8BE251200D4C1300B1A312 /* FlagCollectionViewCell.swift in Sources */,
 				0A59133820090F8400335DA4 /* ColorLibrary.xcdatamodel in Sources */,
 				0A59132420090C5100335DA4 /* ColorListViewController.swift in Sources */,
 				0A8BE253200D4D6300B1A312 /* FlagDetailViewController.swift in Sources */,
-				0A8BE24E200D38B700B1A312 /* Flag.swift in Sources */,
 				0A59132220090C5100335DA4 /* AppDelegate.swift in Sources */,
 				0A59133620090E5500335DA4 /* Color.swift in Sources */,
-				0A3D25C8200BFB4F006D42A8 /* LandingViewController.swift in Sources */,
+				0A3D25C8200BFB4F006D42A8 /* FlagListViewController.swift in Sources */,
 				0A591341200A4B4000335DA4 /* SortTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
