@@ -126,6 +126,34 @@
     ]
   },
   {
+    "name": "Bulgaria",
+    "colors": [
+      {
+      "name": "White",
+      },
+      {
+      "name": "Observatory",
+      },
+      {
+      "name": "Harley Davidson Orange",
+      }
+    ]
+  },
+  {
+    "name": "Bolivia",
+    "colors": [
+      {
+      "name": "Fire Engine Red",
+      },
+      {
+      "name": "Turbo",
+      },
+      {
+      "name": "La Salle Green",
+      }
+    ]
+  },
+  {
     "name": "Germany",
     "colors": [
       {

@@ -299,6 +299,48 @@
 "hex": "C60B30",
  "favorite": false,
 },
+{
+"name": "Dark Powder Blue",
+"category": "Blues",
+"hex": "0033A0",
+ "favorite": false,
+},
+{
+"name": "Yellow Sea",
+"category": "Yellows",
+"hex": "F2A800",
+ "favorite": false,
+},
+{
+"name": "Observatory",
+"category": "Greens",
+"hex": "05966E",
+ "favorite": false,
+},
+{
+"name": "Harley Davidson Orange",
+"category": "Oranges",
+"hex": "D62512",
+ "favorite": false,
+},
+{
+"name": "Fire Engine Red",
+"category": "Reds",
+"hex": "D52B1E",
+ "favorite": false,
+},
+{
+"name": "Turbo",
+"category": "Yellows",
+"hex": "F9E300",
+ "favorite": false,
+},
+{
+"name": "La Salle Green",
+"category": "Greens",
+"hex": "037934",
+ "favorite": false,
+},
  {
  "name": "Salem",
  "category": "Greens",

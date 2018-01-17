@@ -12,6 +12,7 @@ class FlagDetailViewController: UIViewController {
 
     //MARK: - IBOutlets
     @IBOutlet weak var flagImageView: UIImageView!
+    @IBOutlet weak var tableView: UITableView!
 
     //MARK: - Variables
     var flag: Flag!
@@ -31,6 +32,9 @@ class FlagDetailViewController: UIViewController {
         }
         title = flagName
         flagImageView.image = UIImage(named: flagName)
+        tableView.estimatedRowHeight = 88
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.reloadData()
     }
 }
 
@@ -80,5 +84,6 @@ extension FlagDetailViewController: UITableViewDelegate {
         } catch let error as NSError {
             print("Fetching error: \(error), \(error.userInfo)")
         }
+        tableView.reloadData()
     }
 }

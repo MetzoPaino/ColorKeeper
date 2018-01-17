@@ -223,8 +223,9 @@ extension ColorListViewController: NSFetchedResultsControllerDelegate {
         switch type {
         case .update:
             let color = fetchedResultsController.object(at: indexPath)
-            let cell = tableView.cellForRow(at: indexPath) as! ColorTableViewCell
-            cell.configure(color: color)
+            if let cell = tableView.cellForRow(at: indexPath) as? ColorTableViewCell {
+                cell.configure(color: color)
+            }
         case .move, .delete, .insert:
             break
         }
