@@ -8,30 +8,6 @@
 
 import UIKit
 
-//enum OrganiseType {
-//    case filter
-//    case sort
-//
-//    var stringValue: String {
-//        switch self {
-//        case .filter:
-//            return "Filter"
-//        case .sort:
-//            return "Sort"
-//        }
-//    }
-//
-//    var arrayValues: [Sort] {
-//
-//        switch self {
-//        case .filter:
-//            return [.favorite]
-//        case .sort:
-//            return [Sort.alphabetical, .category, .favorite]
-//        }
-//    }
-//}
-
 protocol SortTableViewControllerDelegate: class {
     func sortSelected(sort: Sort)
 }
@@ -72,7 +48,7 @@ class SortTableViewController: UITableViewController {
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
     }
 
-    //MARK: - Table view data source
+    //MARK: - UITableViewDataSource
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -93,6 +69,7 @@ class SortTableViewController: UITableViewController {
         return cell
     }
 
+    //MARK: - UITableViewDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         self.delegate?.sortSelected(sort: sortCriteria[indexPath.row])

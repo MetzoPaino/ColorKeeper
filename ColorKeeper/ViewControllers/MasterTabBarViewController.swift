@@ -17,18 +17,19 @@ class MasterTabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        for viewController in viewControllers! {
+        if let viewControllers = viewControllers {
+            for viewController in viewControllers {
+                if let navigationController = viewController as? UINavigationController {
 
-            if viewController is UINavigationController {
+                    if let flagList = navigationController.topViewController as? FlagListViewController {
 
-                if let flagList = (viewController as! UINavigationController).topViewController as? FlagListViewController {
+                        flagList.coreDataStack = coreDataStack
+                    }
 
-                    flagList.coreDataStack = coreDataStack
-                }
+                    if let colorList = navigationController.topViewController as? ColorListViewController {
 
-                if let colorList = (viewController as! UINavigationController).topViewController as? ColorListViewController {
-
-                    colorList.coreDataStack = coreDataStack
+                        colorList.coreDataStack = coreDataStack
+                    }
                 }
             }
         }

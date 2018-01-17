@@ -11,12 +11,14 @@ import CoreData
 
 public class Color: NSManagedObject {
 
-    class func fetchRequest() -> NSFetchRequest<Color> {
-        return NSFetchRequest<Color>(entityName: "Color")
-    }
-
+    //MARK: - Variables
     @NSManaged public var hex: String?
     @NSManaged public var category: String?
     @NSManaged public var name: String?
     @NSManaged public var favorite: Bool
+
+    //MARK: - Fetch
+    class func fetchRequest() -> NSFetchRequest<Color> {
+        return NSFetchRequest<Color>(entityName: "Color")
+    }
 }

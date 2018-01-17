@@ -57,11 +57,11 @@ extension FlagDetailViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        guard let flagColors = flag.colors else {
-            return cell
+        guard let colors = flag.colors,
+            let color = colors.array[indexPath.row] as? Color else {
+                return cell
         }
 
-        let color = flagColors.array[indexPath.row] as! Color
         cell.configure(color:color)
         return cell
     }
@@ -75,15 +75,18 @@ extension FlagDetailViewController: UITableViewDataSource {
 extension FlagDetailViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let colors = flag.colors,
+            let color = colors.array[indexPath.row] as? Color else {
+                return
+        }
 
-        let color = flag.colors!.array[indexPath.row] as! Color
         color.favorite = !color.favorite
-
         do {
             try color.managedObjectContext?.save()
         } catch let error as NSError {
             print("Fetching error: \(error), \(error.userInfo)")
         }
+
         tableView.reloadData()
     }
 }

@@ -122,7 +122,7 @@ class ColorListViewController: UIViewController {
             sortDescriptors = [categorySort, nameSort]
         case .favorite:
             sectionKeyPath = #keyPath(Color.favorite)
-            sortDescriptors = [favoriteSort]
+            sortDescriptors = [favoriteSort, nameSort]
         }
 
         fetchedResultsController = setupFetchedResultsController()
@@ -221,13 +221,22 @@ extension ColorListViewController: NSFetchedResultsControllerDelegate {
         }
 
         switch type {
+        case .insert:
+            if let newIndexPath = newIndexPath {
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+        case .delete:
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         case .update:
             let color = fetchedResultsController.object(at: indexPath)
             if let cell = tableView.cellForRow(at: indexPath) as? ColorTableViewCell {
                 cell.configure(color: color)
             }
-        case .move, .delete, .insert:
-            break
+        case .move:
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            if let newIndexPath = newIndexPath {
+                tableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
         }
     }
 
